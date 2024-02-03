@@ -25,6 +25,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/component-test1', [ComponentTestContoller::class, 'showComponent1']);
 Route::get('/component-test2', [ComponentTestContoller::class, 'showComponent2']);
+Route::get('/serviceprovidertest', [ComponentTestContoller::class, 'showServiceProvider']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
