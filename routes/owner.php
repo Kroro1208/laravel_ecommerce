@@ -23,11 +23,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('owner.welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('owner.dashboard');
 })->middleware(['auth:owners', 'verified'])->name('dashboard'); // auth:owners これによりownerの権限を持っていたらdashboardにリダイレクトされる。
 
 
@@ -68,7 +68,7 @@ Route::middleware('auth:owners')->group(function () {
                 ->name('verification.send');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-                ->middleware('auth:owners');
+                ->middleware('auth:owners')
                 ->name('password.confirm');
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store'])
@@ -79,6 +79,6 @@ Route::middleware('auth:owners')->group(function () {
                 ->name('password.update');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->middleware('auth:owners');
+                ->middleware('auth:owners')
                 ->name('logout');
 });

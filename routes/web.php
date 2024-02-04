@@ -16,16 +16,16 @@ use App\Http\Controllers\ComponentTestContoller;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('user.dashboard');
 })->middleware(['auth:users', 'verified'])->name('dashboard');
 
-Route::get('/component-test1', [ComponentTestContoller::class, 'showComponent1']);
-Route::get('/component-test2', [ComponentTestContoller::class, 'showComponent2']);
-Route::get('/serviceprovidertest', [ComponentTestContoller::class, 'showServiceProvider']);
+// Route::get('/component-test1', [ComponentTestContoller::class, 'showComponent1']);
+// Route::get('/component-test2', [ComponentTestContoller::class, 'showComponent2']);
+// Route::get('/serviceprovidertest', [ComponentTestContoller::class, 'showServiceProvider']);
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
