@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Owner\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Owner;
+use App\Models\Owner; // モデル名'Owner'と記載
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -34,12 +34,6 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Owner::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
         ]);
 
         
