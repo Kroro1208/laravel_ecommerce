@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Owner; // Eloqent
 use Illuminate\Support\Facades\DB; // クエリビルダ
+use Carbon\Carbon;
 
 class OwnersController extends Controller
 {
@@ -18,17 +19,25 @@ class OwnersController extends Controller
         // $this->middleware('log')->only('index');
         // $this->middleware('subdcribed')->except('store');
     }
-
-    public function index()
+    
+    public function index() // admin.owners.indexというルートからこのindexメソッドが発火する
     {
+        // $date_now = Carbon::now();
+        // $date_parse = Carbon::parse(now());
+        // echo $date_now-;
+
+        // echo $date_parse;
+
         $e_all = Owner::all();
-        $q_get = DB::table('owners')->select('name')->get();
+        $q_get = DB::table('owners')->select('name', 'created_at')->get();
         $q_first = DB::table('owners')->select('name')->first();
         $c_test = collect([
             'name' => 'テスト'
         ]);
+        
+        //dd($e_all, $q_get, $q_first, $c_test); // それぞれ取得した時ßの型が異なるので確認する
 
-        dd($e_all, $q_get, $q_first, $c_test); // admin.owners.indexというルートからこのindexメソッドが発火する
+        return view('admin.owners.index', compact('e_all', 'q_get', 'q_first', 'c_test'));
     }
 
     /**
