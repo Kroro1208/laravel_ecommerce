@@ -11,43 +11,53 @@
                 <div class="p-6 text-gray-900">
                     <section class="text-gray-600 body-font">
                         <div class="container mx-auto">
+                            <button onclick="location.href='{{ route('admin.owners.create')}}'"
+                                class="text-white bg-blue-500 border-0 py-2 px-8 mb-3 focus:outline-none hover:bg-blue-600 rounded text-lg">新規登録</button>
                             <div class="flex justify-center">
                                 <div class="w-full overflow-auto">
-                                  <table class="w-full table-auto mx-auto text-left whitespace-no-wrap">
-                                    <thead>
-                                      <tr>
-                                        <th class="px-6 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">名前</th>
-                                        <th class="px-6 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メールアドレス</th>
-                                        <th class="px-6 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">作成日</th>
-                                        <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      @foreach($owners as $owner)
-                                      <tr>
-                                        <td class="px-6 py-3">{{ $owner->name }}</td>
-                                        <td class="px-6 py-3">{{ $owner->email }}</td>
-                                        <td class="px-6 py-3">{{ $owner->created_at->diffForhumans()}}</td>
-                                        <td class="w-10 text-center">
-                                          <input name="plan" type="radio">
-                                        </td>
-                                      </tr>
-                                      @endforeach
-                                    </tbody>
-                                  </table>
+                                    <table class="w-full table-auto mx-auto text-left whitespace-no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    class="px-6 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+                                                    名前</th>
+                                                <th
+                                                    class="px-6 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                                    メールアドレス</th>
+                                                <th
+                                                    class="px-6 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
+                                                    作成日</th>
+                                                <th
+                                                    class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($owners as $owner)
+                                                <tr>
+                                                    <td class="px-6 py-3">{{ $owner->name }}</td>
+                                                    <td class="px-6 py-3">{{ $owner->email }}</td>
+                                                    <td class="px-6 py-3">{{ $owner->created_at->diffForhumans() }}</td>
+                                                    <td class="w-10 text-center">
+                                                        <input name="plan" type="radio">
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                     </section>
                     {{--
                         エロくアント
-                        @foreach($e_all as $e_owner)
+                        @foreach ($e_all as $e_owner)
                         {{ $e_owner->name }}
                         {{ $e_owner->created_at->diffForhumans()}}
                         @endforeach
                         <br>
                         クエリビルダ
-                        @foreach($q_get as $q_owner)
+                        @foreach ($q_get as $q_owner)
                         {{ $q_owner->name }}
                         {{ Carbon\Carbon::parse($q_owner->created_at)->diffForhumans()}}
                         @endforeach
