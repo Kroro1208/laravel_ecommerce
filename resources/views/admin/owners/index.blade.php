@@ -12,8 +12,8 @@
                     <section class="text-gray-600 body-font">
                         <div class="container mx-auto">
                             <div class="flex justify-center">
-                                <div class="lg:w-2/3 w-full overflow-auto">
-                                  <table class="table-auto mx-auto text-left whitespace-no-wrap">
+                                <div class="w-full overflow-auto">
+                                  <table class="w-full table-auto mx-auto text-left whitespace-no-wrap">
                                     <thead>
                                       <tr>
                                         <th class="px-6 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">名前</th>
