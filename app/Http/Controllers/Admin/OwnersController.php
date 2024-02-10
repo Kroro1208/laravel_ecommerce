@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Owner; // Eloqent
 use Illuminate\Support\Facades\DB; // クエリビルダ
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+
 
 class OwnersController extends Controller
 {
@@ -14,12 +17,13 @@ class OwnersController extends Controller
      * Display a listing of the resource.
      */
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:admin');
         // $this->middleware('log')->only('index');
         // $this->middleware('subdcribed')->except('store');
     }
-    
+
     public function index() // admin.owners.indexというルートからこのindexメソッドが発火する
     {
         // $date_now = Carbon::now();
@@ -34,7 +38,7 @@ class OwnersController extends Controller
         // $c_test = collect([
         //     'name' => 'テスト'
         // ]);
-        
+
         //dd($e_all, $q_get, $q_first, $c_test); // それぞれ取得した時ßの型が異なるので確認する
         $owners = Owner::select('name', 'email', 'created_at')->get();
         return view('admin.owners.index', compact('owners'));
@@ -53,7 +57,20 @@ class OwnersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . Owner::class],
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ]);
+
+        Owner::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        return redirect()->route('admin.owners.index')
+        ->with('message', '新規オーナーが登録されました');
     }
 
     /**
@@ -61,7 +78,7 @@ class OwnersController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
