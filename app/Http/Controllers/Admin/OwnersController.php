@@ -111,6 +111,6 @@ class OwnersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        dd('削除処理実行');
     }
 }
