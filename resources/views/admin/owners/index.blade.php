@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <section class="text-gray-600 body-font">
                         <div class="container mx-auto">
-                            <x-flash-message status='info' />
+                            <x-flash-message status="session('status')" />
                             <button onclick="location.href='{{ route('admin.owners.create') }}'"
                                 class="text-white bg-blue-500 border-0 py-2 px-8 mb-3 focus:outline-none hover:bg-blue-600 rounded text-lg">新規登録</button>
                             <div class="flex justify-center">

@@ -70,7 +70,7 @@ class OwnersController extends Controller
         ]);
 
         return redirect()->route('admin.owners.index')
-        ->with('message', '新規オーナーが登録されました');
+        ->with(['message'=>'新規オーナーが登録されました', 'status'=>'info']);
     }
 
     /**
@@ -103,7 +103,7 @@ class OwnersController extends Controller
         $owner->save();
 
         return redirect()->route('admin.owners.index')
-        ->with('message', 'オーナー情報を更新しました');
+        ->with(['message'=>'オーナー情報を更新しました', 'status'=>'info']);
     }
 
     /**
@@ -111,6 +111,7 @@ class OwnersController extends Controller
      */
     public function destroy(string $id)
     {
-        dd('削除処理実行');
+        Owner::findOrFail($id)->delete(); // ソフトデリート
+        return redirect()->route('admin.owners.index')->with(['message'=>'オーナー情報を削除しました', 'status'=>'alert']);
     }
 }
