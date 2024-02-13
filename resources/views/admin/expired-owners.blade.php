@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            オーナー一覧
+            期限切れオーナー一覧
         </h2>
     </x-slot>
 
@@ -12,8 +12,6 @@
                     <section class="text-gray-600 body-font">
                         <div class="container mx-auto">
                             <x-flash-message status="session('status')" />
-                            <button onclick="location.href='{{ route('admin.owners.create') }}'"
-                                class="text-white bg-blue-500 border-0 py-2 px-8 mb-3 focus:outline-none hover:bg-blue-600 rounded text-lg">新規登録</button>
                             <div class="flex justify-center">
                                 <div class="w-full overflow-auto">
                                     <table class="w-full table-auto mx-auto text-left whitespace-no-wrap">
@@ -27,32 +25,26 @@
                                                     メールアドレス</th>
                                                 <th
                                                     class="px-6 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">
-                                                    作成日</th>
-                                                <th
-                                                    class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
-                                                </th>
+                                                    期限切れ日</th>
                                                 <th
                                                     class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($owners as $owner)
+                                            @foreach ($expiredOwners as $owner)
                                                 <tr>
                                                     <td class="px-6 py-3">{{ $owner->name }}</td>
                                                     <td class="px-6 py-3">{{ $owner->email }}</td>
-                                                    <td class="px-6 py-3">{{ $owner->created_at->diffForhumans() }}</td>
+                                                    <td class="px-6 py-3">{{ $owner->deleted_at->diffForhumans() }}</td>
                                                     <td class="px-4 py-3 text-center">
-                                                      <button onclick="location.href='{{route('admin.owners.edit', ['owner' => $owner->id])}}'"
-                                                      class="text-white bg-blue-500 border-0 py-2 px-5 focus:outline-none hover:bg-blue-400 rounded">編集</button>
                                                     </td>
-                                                    <form id="delete_{{$owner->id}}" method="post" action="{{route('admin.owners.destroy', ['owner'=>$owner->id])}}">
-                                                      @method('delete')
-                                                      @csrf
-                                                      <td class="px-4 py-3 text-center">
+                                                    <form id="delete_{{$owner->id}}" method="post" action="{{route('admin.expired-owners.destroy', ['owner'=>$owner->id])}}">
+                                                        @csrf
+                                                        <td class="px-4 py-3 text-center">
                                                         <a href="#" data-id="{{$owner->id}}" onclick="deletePost(this)"
-                                                        class="text-white bg-red-500 border-0 py-2 px-5 focus:outline-none hover:bg-red-700 rounded">削除</a>
-                                                      </td>
+                                                        class="text-white bg-red-500 border-0 py-2 px-5 focus:outline-none hover:bg-red-700 rounded">完全削除</a>
+                                                        </td>
                                                     </form>
                                                 </tr>
                                             @endforeach
