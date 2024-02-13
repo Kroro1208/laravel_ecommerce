@@ -1,4 +1,4 @@
-@props(['status' => 'info']);
+@props(['status' => 'info'])
 
 @php
     if (session('status') == 'info') {
