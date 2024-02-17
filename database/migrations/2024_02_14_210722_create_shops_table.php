@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id')->constrained(); // 外部キー制約を設定(shop1つに対してオーナーを1人する)
+            $table->foreignId('owner_id')
+            ->constrained() // 外部キー制約を設定(shop1つに対してオーナーを1人する)
+            ->onUpdate('cascade') // オーナーを削除するとショップも削除されるようにする
+            ->onDelete('cascade'); 
+
             $table->string('name');
             $table->text('information');
             $table->string('filename');
