@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Owner; // Eloqent
+use App\Models\Shop;
 use Illuminate\Support\Facades\DB; // クエリビルダ
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Throwable;
+use Illuminate\Support\Facades\Log;
+
 
 
 class OwnersController extends Controller
@@ -26,20 +29,6 @@ class OwnersController extends Controller
 
     public function index() // admin.owners.indexというルートからこのindexメソッドが発火する
     {
-        // $date_now = Carbon::now();
-        // $date_parse = Carbon::parse(now());
-        // echo $date_now-;
-
-        // echo $date_parse;
-
-        // $e_all = Owner::all();
-        // $q_get = DB::table('owners')->select('name', 'created_at')->get();
-        // $q_first = DB::table('owners')->select('name')->first();
-        // $c_test = collect([
-        //     'name' => 'テスト'
-        // ]);
-
-        //dd($e_all, $q_get, $q_first, $c_test); // それぞれ取得した時ßの型が異なるので確認する
         $owners = Owner::select('id', 'name', 'email', 'created_at')->paginate(3);
         return view('admin.owners.index', compact('owners'));
     }
@@ -63,11 +52,28 @@ class OwnersController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
-        Owner::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+        try{
+            DB::Transaction(function()use($request){
+                $owner = Owner::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password)
+                ]);
+
+                Shop::create([
+                    'owner_id' => $owner->id,
+                    'name' => '店名を入力してください', // これは初期値
+                    'information' => '',
+                    'filename'=> '',
+                    'is_selling' => true
+                ]);
+            }, 2);
+
+        } catch(Throwable $e) {
+            Log::error($e);
+            throw $e;
+        }
+
 
         return redirect()->route('admin.owners.index')
         ->with(['message'=>'新規オーナーが登録されました', 'status'=>'info']);
