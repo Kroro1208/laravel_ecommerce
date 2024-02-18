@@ -9,8 +9,25 @@ use App\Models\Shop;
 
 class ShopController extends Controller
 {
+
+
+
+
+
     public function __construct() {
         $this->middleware("auth:owner");
+        $this->middleware(function($request, $next) {
+            $id = $request->route()->parameter('shop');
+            if(!is_null($id)) {
+                $shopOwnerId = Shop::findOrFail($id)->owner->id;
+                 $shopId = (int)$shopOwnerId;
+                 $ownerId = Auth::id();
+                 if($shopId !== $ownerId) {
+                    abort(404);
+                 }
+            }
+            return $next($request);
+        });
     }
 
     public function index() {
